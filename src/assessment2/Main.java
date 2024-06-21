@@ -37,6 +37,7 @@ public class Main {
             System.out.println("5. View Group");
             System.out.println("6. Add Hiker to Group");
             System.out.println("7. Remove Hiker from Group");
+            System.out.println("8. Assign Group to Trip");
             System.out.println("0. Exit");
             System.out.print("Enter your choice: ");
 
@@ -64,6 +65,9 @@ public class Main {
                         break;
                     case 7:
                         removeHikerFromGroup();
+                        break;
+                    case 8:
+                        assignGroupToTrip();
                         break;
                     case 0:
                         System.out.println("Exiting...");
@@ -168,7 +172,7 @@ public class Main {
                 group.addHiker(hikerToAdd);
                 System.out.println("Added hiker: " + hikerToAdd.getName());
             } else {
-                System.out.println("Invalid number. Please enter a number between 1 and " + hikers.size() + ".");
+                System.out.println("Please enter a number between 1 and " + hikers.size() + ".");
             }
         } else {
             System.out.println("Group not found.");
@@ -182,7 +186,7 @@ public class Main {
 
         Group group = findGroupById(groupId);
 
-        if (group != null) {
+        if (group != null) { //list hikers in group
             System.out.println("Hikers in the group:");
             List<Hiker> hikers = group.getHikers();
             for (Hiker hiker : hikers) {
@@ -192,17 +196,10 @@ public class Main {
             System.out.print("Enter the name of the hiker to remove: ");
             String hikerName = scanner.nextLine();
 
-            Hiker hikerToRemove = null;
-            for (Hiker hiker : hikers) {
-                if (hiker.getName().equalsIgnoreCase(hikerName)) {
-                    hikerToRemove = hiker;
-                    break;
-                }
-            }
+            boolean removed = hikers.removeIf(hiker -> hiker.getName().equals(hikerName)); // remove elem from collection
 
-            if (hikerToRemove != null) {
-                group.removeHiker(hikerToRemove);
-                System.out.println("Removed hiker: " + hikerToRemove.getName());
+            if (removed) {
+                System.out.println("Removed hiker: " + hikerName);
             } else {
                 System.out.println("Hiker not found in the group.");
             }
@@ -211,7 +208,26 @@ public class Main {
         }
     }
 
-    private static Group findGroupById(int groupId) {
+    private static void assignGroupToTrip() { // New method to assign a group to a trip
+        System.out.print("Enter Trip ID to assign group to: ");
+        int tripId = scanner.nextInt();
+        scanner.nextLine();
+
+        System.out.print("Enter Group ID to assign: ");
+        int groupId = scanner.nextInt();
+        scanner.nextLine();
+
+        Group group = findGroupById(groupId);
+
+        if (group != null) {
+            planner.addGroupToTrip(tripId, group);
+            System.out.println("Group " + groupId + " assigned to Trip " + tripId);
+        } else {
+            System.out.println("Group not found.");
+        }
+    }
+
+    private static Group findGroupById(int groupId) { // search hiking trips with ID to assign a group to a trip
         for (HikingTrip trip : planner.getTrips()) {
             for (Group group : trip.getGroups()) {
                 if (group.getGroupId() == groupId) {

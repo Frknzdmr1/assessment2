@@ -21,7 +21,6 @@ public class Group {
         return hikers;
     }
 
-
     public void addHiker(Hiker hiker) {
         hikers.add(hiker);
     }

@@ -21,6 +21,16 @@ public class HikingTripPlanner {
         trips.add(trip);
     }
 
+    public void addGroupToTrip(int tripId, Group group) {
+        for (HikingTrip trip : trips) {
+            if (trip.getTripId() == tripId) {
+                trip.addGroup(group);
+                return;
+            }
+        }
+        System.out.println("Trip with ID " + tripId + " not found.");
+    }
+
     public List<Hiker> viewAllHikers() {
         return hikers;
     }

@@ -25,10 +25,6 @@ public class Group {
         hikers.add(hiker);
     }
 
-    public void removeHiker(Hiker hiker) {
-        hikers.remove(hiker);
-    }
-
     @Override
     public String toString() {
         return "Group{" +
@@ -37,3 +33,4 @@ public class Group {
                 '}';
     }
 }
+

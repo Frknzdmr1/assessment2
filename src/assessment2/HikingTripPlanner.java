@@ -59,3 +59,4 @@ public class HikingTripPlanner {
         return trips;
     }
 }
+
